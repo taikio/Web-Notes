@@ -1,0 +1,20 @@
+.text-primary a{
+	text-decoration: none;
+}
+.novo{
+	float: right;
+	
+}
+.selecionado{
+	font-weight: bold;
+	background-color: #FFE082;
+}
+.selecionado td{
+	border-radius: 6px;
+}
+.titulo{
+	font-size: 18px;
+}
+.dataHora{
+	font-size: 14px;
+}

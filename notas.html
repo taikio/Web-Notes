@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="Notas">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/notas.css">
+	<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers/NotasCtrl.js"></script>
+	<script type="text/javascript" src="js/services/notasService.js"></script>
+	<script type="text/javascript" src="js/services/empresasService.js"></script>
+	<script type="text/javascript" src="js/filters/dataHoraFilter.js"></script>
+	<script type="text/javascript" src="js/value/configValue.js"></script>
+	
+	<title>Web Notes</title>
+
+</head>
+<body ng-controller="NotasCtrl">
+	<div class="container-fluid">
+		<div class="row">
+			<center><h3>{{app}}</h3></center>
+			<hr>
+		</div>
+		<div class="well col-md-4">
+			<input class="form-control" type="text" placeholder="O que você procura?" ng-model="pesquisa" />
+			<hr>
+			<table class="table">
+				<tr>
+					<td>
+						<b>Título</b>
+					</td>
+					<td>
+						<b>Empresa</b>
+					</td>
+					<td>						
+					</td>
+				</tr>
+				<tr ng-class="{selecionado : nota.selecionada}" ng-repeat="nota in notas | filter:pesquisa | orderBy:nota.id">
+					<td>
+						<h5 class="text-primary"><a href="" ng-click="notaSelecionada(nota)">{{nota.titulo}}</a></h5>
+					</td>
+					<td>
+						<h5 class="text-primary">{{nota.empresa}}</h5>
+					</td>
+					<td>
+						<button class="btn btn-danger" ng-click="deletarNotas(nota)">Deletar</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="well col-md-8" style="height: 600px;">
+			<div ng-show="isNotaSelecionada(notas)">
+				<p><span class="titulo">{{tituloSelecionada}}</span> - <span class="dataHora">{{dataSelecionada | datahora}}</span></p>
+				<br>
+				<p align="justify">
+					{{detalhesSelecionada}}
+				</p>
+			</div>
+		</div>
+		<button class="btn btn-primary novo" data-toggle="modal" data-target="#new">Nova Nota</button>
+
+		<!-- ############################################### Modal de cadastro ############################################################ -->
+
+		<div class="modal fade" id="new" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Nova Nota</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<form action="" name="notaForm">
+								<input class="form-control" placeholder="Título" type="text" name="titulo" ng-model="nota.titulo" ng-required="true" ng-minlength="10" ng-maxlength="30" />
+								<br>
+								<textarea class="form-control" name="descricao" ng-model="nota.descricao" ng-required="true" ng-minlength="10"></textarea>
+								<br>
+								<select class="form-control" ng-model="nota.empresa" ng-options="empresa.nome for empresa in empresas | orderBy:'nome'" ng-required="true">
+									<option value="">Selecione uma Empresa</option>
+								</select>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="criarNota(nota)" ng-disabled="notaForm.$invalid">Salvar</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<!-- ########################################################### Fim do modal ########################################################## -->
+	</div>
+
+</body>
+</html>
