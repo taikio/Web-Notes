@@ -6,9 +6,15 @@ angular.module('Notas').controller('NotasCtrl', ['$scope','notasApi','empresasAp
 	$scope.criarNota = function (nota) {
 		notasApi.adicionarNota(nota).success(function (data) {
 			delete $scope.nota;
+			$scope.notaForm.$setPristine();
 			carregarNotas();
 		})
 	};
+
+	$scope.cancelar = function () {
+		delete $scope.nota;
+		$scope.notaForm.$setPristine();
+	}
 
 	var carregarNotas = function () {
 		notasApi.getNotas().success(function (data) {

@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="js/services/empresasService.js"></script>
 	<script type="text/javascript" src="js/filters/dataHoraFilter.js"></script>
 	<script type="text/javascript" src="js/value/configValue.js"></script>
+	<script type="text/javascript" src="js/directives/alertDirective.js"></script>
 	
 	<title>Web Notes</title>
 
@@ -45,7 +46,7 @@
 						<h5 class="text-primary">{{nota.empresa}}</h5>
 					</td>
 					<td>
-						<button class="btn btn-danger" ng-click="deletarNotas(nota)">Deletar</button>
+						<button class="btn btn-danger" ng-click="deletarNotas(nota)">&times; </button>
 					</td>
 				</tr>
 			</table>
@@ -63,7 +64,6 @@
 		<button class="btn btn-primary novo" data-toggle="modal" data-target="#new">Nova Nota</button>
 
 		<!-- ############################################### Modal de cadastro ############################################################ -->
-
 		<div class="modal fade" id="new" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -78,19 +78,29 @@
 								<br>
 								<textarea class="form-control" name="descricao" ng-model="nota.descricao" ng-required="true" ng-minlength="10"></textarea>
 								<br>
-								<select class="form-control" ng-model="nota.empresa" ng-options="empresa.nome for empresa in empresas | orderBy:'nome'" ng-required="true">
+								<select name="empresa" class="form-control" ng-model="nota.empresa" ng-options="empresa.nome for empresa in empresas | orderBy:'nome'" ng-required="true">
 									<option value="">Selecione uma Empresa</option>
 								</select>
 							</form>
+							<alert criterio="notaForm.titulo.$invalid && notaForm.titulo.$dirty">
+								O campo Título deve ter pelo menos 10 caracteres
+							</alert>
+							<div class="alert alert-danger" ng-show="notaForm.descricao.$invalid && notaForm.descricao.$dirty">
+								<p>O campo Descrição deve ter pelo menos 10 caracteres</p>
+							</div>
+							<div class="alert alert-danger" ng-show="notaForm.empresa.$invalid">
+								<p>É necessário selecionar uma empresa</p>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancelar()">Cancelar</button>
 						<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="criarNota(nota)" ng-disabled="notaForm.$invalid">Salvar</button>
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+		
 		<!-- ########################################################### Fim do modal ########################################################## -->
 	</div>
 

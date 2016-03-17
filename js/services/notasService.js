@@ -1,4 +1,4 @@
-angular.module('Notas').factory('notasApi', function ($http,config) {
+angular.module('Notas').factory('notasApi', ['$http','config',function ($http,config) {
 	var _getNotas = function () {
 		return $http.get(config.baseUrl + "/tarefas");
 	};
@@ -16,4 +16,4 @@ angular.module('Notas').factory('notasApi', function ($http,config) {
 		adicionarNota : _adicionarNota,
 		deleteNotas : _deleteNotas
 	};
-});
+}]);
